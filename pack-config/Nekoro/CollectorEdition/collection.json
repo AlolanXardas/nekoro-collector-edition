@@ -1,0 +1,17 @@
+{
+  // Nekoro Collector Edition. Put a block into the Collector Table to add it to your collection (you keep it),
+  // convert blocks into points and take copies of anything in your collection.
+  // Every player has their own collection and points. On a server the server's file counts.
+  // What can be added is set in allowed.json and blocked.json next to this file.
+
+  // show everything that can be added in the window, also what is not collected yet (darkened, cannot be
+  // taken); for looking through what is available, e.g. when setting up allowed.json and blocked.json
+  "show_all_items": true,
+
+  // how many converted blocks one copy costs (10 = every converted block is worth 0.1 of a copy)
+  "blocks_per_copy": 10,
+
+  // the amounts the button in the window switches between (left click: next, right click: back);
+  // one click on a block in the collection takes this many (1000 is shown as 1k)
+  "take_amounts": [1, 10, 100, 1000]
+}

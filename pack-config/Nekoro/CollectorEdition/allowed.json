@@ -1,0 +1,44 @@
+{
+  // What can be added to the Collector Table. Nothing goes in unless one of the three parts below lets it in,
+  // and blocked.json always wins over all of them. Items with something inside (a filled shulker box) never go
+  // in; food, drinks and items that only plant something (seeds, potatoes, string) are never counted as blocks.
+  // Entries in the lists:
+  //   "minecraft:oak_planks"    one item
+  //   "#minecraft:planks"       every item in a tag
+  //   "somemod:*"               every item of one mod
+  //   "*:*_planks"              * matches any text (here: planks of every mod)
+
+  // 1. Kinds of blocks, recognised by what the block is in the game (not by its name), so they work with
+  //    blocks of any mod. Switch off what should not be copied.
+  "kinds": {
+    // whole cubes without a use: stone, planks, bricks, glass, wool, leaves... Never counted: blocks with
+    // a block entity (chests, machines, altars, spawners), work tables, redstone parts, lamps, pumpkins,
+    // plants and their growth stages, crystals, fluids and TNT
+    "full_blocks": true,
+    "slabs": true,
+    "stairs": true,
+    "walls": true,
+    // fences and fence gates
+    "fences": true,
+    "doors": true,
+    "trapdoors": true,
+    // glass panes and iron bars (not ropes, which are built the same way)
+    "panes": true,
+    "carpets": true,
+    "buttons": true,
+    "pressure_plates": true
+  },
+  // The mods whose blocks the kinds above count for. "*" is every mod; for a strict list use e.g.
+  // [ "minecraft:*", "biomesoplenty:*" ] and only blocks of those mods go in by kind.
+  "kinds_mods": [ "*" ],
+
+  // 2. Furniture and decoration mods: every block they add goes in, also blocks with a use (a drawer).
+  //    Macaw's mods and their wood variants made by Every Compat:
+  "furniture": [
+    "mcw*:*",
+    "everycomp:mc*"
+  ],
+
+  // 3. Anything else to let in (e.g. "#minecraft:flowers" or "minecraft:lantern").
+  "allowed": []
+}

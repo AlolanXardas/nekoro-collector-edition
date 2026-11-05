@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BNB",
+    "BCB",
+    "BBB"
+  ],
+  "key": {
+    "B": { "item": "minecraft:book" },
+    "N": { "item": "minecraft:nether_star" },
+    "C": { "item": "nekorocollectoredition:collector_table" }
+  },
+  "result": { "id": "nekorocollectoredition:collector_catalog", "count": 1 }
+}

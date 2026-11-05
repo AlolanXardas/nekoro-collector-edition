@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "nekorocollectoredition",
+  "version": "${version}",
+  "name": "Nekoro Collector Edition",
+  "description": "A Collector Table for copying building blocks. Put a block in to add it to your collection (you keep it), convert blocks into points, and take copies of anything in your collection. Every player has their own collection. What can be added is set in the config.",
+  "authors": [
+    "Alolan Xardas"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.xardas.nekorocollectoredition.fabric.NekoroCollectorEditionFabric"
+    ],
+    "client": [
+      "dev.xardas.nekorocollectoredition.fabric.NekoroCollectorEditionFabricClient"
+    ]
+  },
+  "mixins": [
+    "nekorocollectoredition.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

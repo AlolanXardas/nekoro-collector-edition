@@ -1,0 +1,69 @@
+{
+  // What can never be added to the collection, even when allowed.json allows it.
+  // The same kinds of entries as in allowed.json.
+  "blocked": [
+    // ores and blocks of ores, gems and metals
+    "#c:ores",
+    "#c:storage_blocks",
+    "minecraft:ancient_debris",
+    // food, seeds and crops, also those that can be placed (cake, potatoes, berries)
+    "#c:foods",
+    "#c:seeds",
+    "#c:crops",
+    // blocks that hold items or are valuable
+    "minecraft:*shulker_box",
+    "minecraft:beacon",
+    "minecraft:conduit",
+    "minecraft:dragon_egg",
+    "minecraft:heavy_core",
+    "minecraft:budding_amethyst",
+    "minecraft:*_amethyst_bud",
+    "minecraft:*_head",
+    "minecraft:*_skull",
+    // blocks you cannot get in survival
+    "minecraft:bedrock",
+    "minecraft:barrier",
+    "minecraft:light",
+    "minecraft:structure_void",
+    "minecraft:structure_block",
+    "minecraft:jigsaw",
+    "minecraft:*command_block",
+    "minecraft:spawner",
+    "minecraft:trial_spawner",
+    "minecraft:vault",
+    "minecraft:end_portal_frame",
+    "minecraft:reinforced_deepslate",
+    "minecraft:petrified_oak_slab",
+    "minecraft:infested_*",
+    "minecraft:suspicious_*",
+    "minecraft:frogspawn",
+    "minecraft:farmland",
+    "minecraft:dirt_path",
+    // explosives
+    "minecraft:tnt",
+    // lamps, lanterns and pumpkins of every mod (light sources and crops, not building blocks)
+    "*:*lamp*",
+    "*:*lantern*",
+    "*:*pumpkin*",
+    // torches of every mod (also tiki torches and lamps of furniture mods), coral, gem blocks
+    "*:*torch*",
+    "*:*coral*",
+    "*:*gem_block*",
+    // Framed Blocks: blocks that copy the look of other blocks
+    "framedblocks:*",
+    // Generations: gem and evolution stone blocks, cursed pumpkins, Null candy and other things not for building
+    "generations_core:*crystal_block",
+    "generations_core:ruby_block",
+    "generations_core:sapphire_block",
+    "generations_core:silicon_block",
+    "generations_core:ultrite_block",
+    "generations_core:z_block",
+    "generations_core:*_stone_block",
+    "generations_core:cursed_*",
+    "generations_core:null_*",
+    "generations_core:ynoep",
+    // the blocks of this mod and of Nekoro Shop
+    "nekorocollectoredition:*",
+    "nekoroshop:*"
+  ]
+}
