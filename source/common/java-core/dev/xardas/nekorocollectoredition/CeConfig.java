@@ -141,10 +141,14 @@ public final class CeConfig {
             }
             """;
 
-    /** One bag of bags.json. */
-    public record Bag(String name, boolean enabled, boolean enderStorage, int slots, ItemFilter items, PickupMode pickup, String recipeItem, int recipeCount) { }
+    /**
+     * One bag of bags.json. Its recipe is either recipeItem x recipeCount with an ender chest and leather, or, when
+     * recipeFrom is set, that other bag together with recipeWith.
+     */
+    public record Bag(String name, boolean enabled, boolean enderStorage, int slots, ItemFilter items, PickupMode pickup,
+                      String recipeItem, int recipeCount, String recipeFrom, String recipeWith) { }
 
-    private static final Bag NO_BAG = new Bag("", true, true, 27, ItemFilter.of(List.of()), PickupMode.MATCHING, "", 1);
+    private static final Bag NO_BAG = new Bag("", true, true, 27, ItemFilter.of(List.of()), PickupMode.MATCHING, "", 1, "", "");
 
     private static CeConfig current = new CeConfig(new JsonObject(), new JsonObject(), new JsonObject(), new JsonObject());
 
@@ -158,6 +162,8 @@ public final class CeConfig {
     public final List<String> allowed;
     public final List<String> blocked;
     public final boolean autoPickup;
+    /** false turns off every bag recipe, even those written in bags.json. */
+    public final boolean recipesEnabled;
     /** By item name (e.g. "bag001"). */
     private final Map<String, Bag> bagSettings = new LinkedHashMap<>();
 
@@ -181,6 +187,7 @@ public final class CeConfig {
         allowed = List.copyOf(JsonFile.strings(allowedFile, "allowed"));
         blocked = List.copyOf(JsonFile.strings(blockedFile, "blocked"));
         autoPickup = JsonFile.bool(bags, "auto_pickup", true);
+        recipesEnabled = JsonFile.bool(bags, "recipes_enabled", true);
         JsonObject list = JsonFile.obj(bags, "bags");
         for (String name : list.keySet()) {
             JsonObject bag = JsonFile.obj(list, name);
@@ -189,7 +196,8 @@ public final class CeConfig {
                     Math.max(1, Math.min(BagMenu.MAX_SLOTS, JsonFile.integer(bag, "slots", 27))),
                     ItemFilter.of(JsonFile.strings(bag, "items")),
                     PickupMode.byId(JsonFile.string(bag, "pickup", "matching"), PickupMode.MATCHING),
-                    JsonFile.string(bag, "recipe_item", ""), JsonFile.integer(bag, "recipe_count", 1)));
+                    JsonFile.string(bag, "recipe_item", ""), JsonFile.integer(bag, "recipe_count", 1),
+                    JsonFile.string(bag, "recipe_from", ""), JsonFile.string(bag, "recipe_with", "")));
         }
     }
 

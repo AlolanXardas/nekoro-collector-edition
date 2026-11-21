@@ -9,28 +9,31 @@ import java.util.List;
 public final class BagDefaults {
     private BagDefaults() { }
 
-    private static final List<String> COLORS = List.of("Red", "Redstone", "Mahogany", "Chocolate", "Brown", "Copper", "Orange", "Brass",
-            "Yellow", "Gold", "Bone", "Lime", "Green", "Olive", "Endereye", "Emerald", "Slime", "Aqua", "Enderpearl", "Sculk", "Diamond",
-            "Prismarine", "Cyan", "Blue", "Navy", "Lapis", "Chorus", "Azalea", "Purple", "Magenta", "Amethyst", "Pink", "Rose", "Snow",
-            "White", "Iron", "Ash", "Gray", "Obsidian", "Netherite");
+    /** Named after the Nekoro Gear materials of the same colours (since release 2). */
+    private static final List<String> COLORS = List.of("Ruby", "Redstone", "Garnet", "Bronze", "Jasper", "Copper", "Carnelian", "Tumbaga",
+            "Citrine", "Gold", "Topaz", "Peridot", "Jade", "Epidote", "Aventurine", "Emerald", "Chrysoprase", "Amazonite", "Mithril",
+            "Chrysocolla", "Diamond", "Fluorite", "Celestine", "Sapphire", "Cobalt", "Lapis", "Lepidolite", "Spinel", "Tanzanite",
+            "Sugilite", "Amethyst", "Rhodochrosite", "Kunzite", "Aquamarine", "Silver", "Iron", "Tin", "Lead", "Onyx", "Netherite");
 
-    private static final List<String> PICTURES = List.of("Fire", "Exclamation", "Pickaxe", "Ground", "Spiral", "Scales", "Fighting", "Eye",
-            "Electric", "Currency", "Normal", "Grass", "Bug", "Toxic", "Hashtag", "Creeper", "Recycling", "Square", "Rectangle", "Cursor",
-            "Cross", "Calendar", "Flying", "Water", "Dragon", "Tornado", "Clock", "Poison", "Harmony", "Fairy", "Ball", "Psychic",
-            "Question", "Ice", "Stellar", "Steel", "Rock", "Dark", "Ghost", "Error");
-
-    /** What a bag of this colour is made with; a bag with a picture takes two of it, a bag with a cat three. */
-    private static final List<String> RECIPE_ITEMS = List.of("red_dye", "redstone", "mangrove_log", "cocoa_beans", "brown_dye", "copper_ingot",
-            "orange_dye", "raw_gold", "yellow_dye", "gold_ingot", "bone", "lime_dye", "green_dye", "moss_block", "ender_eye", "emerald",
-            "slime_ball", "prismarine_crystals", "ender_pearl", "sculk", "diamond", "prismarine_shard", "cyan_dye", "blue_dye", "ink_sac",
-            "lapis_lazuli", "chorus_fruit", "azalea", "purple_dye", "magenta_dye", "amethyst_shard", "pink_dye", "rose_bush", "snowball",
-            "white_dye", "iron_ingot", "light_gray_dye", "gray_dye", "obsidian", "netherite_ingot");
+    /**
+     * What a bag of this colour is made with: the Nekoro Gear crystal or ingot of that colour, or the vanilla material.
+     * Bags with a picture or a cat are made from the bag of their colour instead. Without Nekoro Gear only the vanilla ones work.
+     */
+    private static final List<String> RECIPE_ITEMS = List.of(
+            "nekorogear:ruby", "minecraft:redstone", "nekorogear:garnet", "nekorogear:bronze_ingot", "nekorogear:jasper",
+            "minecraft:copper_ingot", "nekorogear:carnelian", "nekorogear:tumbaga_ingot", "nekorogear:citrine", "minecraft:gold_ingot",
+            "nekorogear:topaz", "nekorogear:peridot", "nekorogear:jade", "nekorogear:epidote", "nekorogear:aventurine",
+            "minecraft:emerald", "nekorogear:chrysoprase", "nekorogear:amazonite", "nekorogear:mithril_ingot", "nekorogear:chrysocolla",
+            "minecraft:diamond", "nekorogear:fluorite", "nekorogear:celestine", "nekorogear:sapphire", "nekorogear:cobalt_ingot",
+            "minecraft:lapis_lazuli", "nekorogear:lepidolite", "nekorogear:spinel", "nekorogear:tanzanite", "nekorogear:sugilite",
+            "minecraft:amethyst_shard", "nekorogear:rhodochrosite", "nekorogear:kunzite", "nekorogear:aquamarine", "nekorogear:silver_ingot",
+            "minecraft:iron_ingot", "nekorogear:tin_ingot", "nekorogear:lead_ingot", "nekorogear:onyx", "minecraft:netherite_ingot");
 
     static String name(int number) {
         int color = (number - 1) % 40;
         return switch ((number - 1) / 40) {
             case 0 -> COLORS.get(color) + " Bag";
-            case 1 -> PICTURES.get(color) + " Bag";
+            case 1 -> COLORS.get(color) + " Emblem Bag";
             default -> COLORS.get(color) + " Cat Bag";
         };
     }
@@ -52,8 +55,15 @@ public final class BagDefaults {
                   //   "pickup"         picking up items until the player changes it: "all" (everything that may go in),
                   //                    "matching" (only what the bag already holds) or "off"
                   //   "recipe_item"    made with an ender chest in the middle, leather at the sides and below, and this item
-                  //                    above it; empty = no recipe
+                  //                    above it; empty = no recipe. By default the Nekoro Gear crystal or ingot of the bag's
+                  //                    colour; a recipe with an item of a mod that is not installed is left out
                   //   "recipe_count"   how many of that item (1, 2 or 3)
+                  //   "recipe_from"    instead of the above: made from this other bag ("bag001") together with
+                  //   "recipe_with"    this item. By default a bag with a picture is the bag of its colour with an ink sac,
+                  //                    a bag with a cat the bag of its colour with string
+
+                  // false: no bag recipes at all, even the ones written below
+                  "recipes_enabled": true,
 
                   // items picked up go into bags in the inventory
                   "auto_pickup": true,
@@ -61,11 +71,13 @@ public final class BagDefaults {
                   "bags": {
                 """);
         for (int i = 1; i <= BagItem.COUNT; i++) {
-            String item = "minecraft:" + RECIPE_ITEMS.get((i - 1) % 40);
+            String recipe = i <= 40
+                    ? "\"recipe_item\": \"" + RECIPE_ITEMS.get(i - 1) + "\", \"recipe_count\": 1"
+                    : "\"recipe_from\": \"" + BagItem.itemName((i - 1) % 40 + 1) + "\", \"recipe_with\": \""
+                            + (i <= 80 ? "minecraft:ink_sac" : "minecraft:string") + "\"";
             out.append("    \"").append(BagItem.itemName(i)).append("\": { \"name\": \"").append(name(i))
                     .append("\", \"enabled\": true, \"ender_storage\": true, \"slots\": ").append(i % 40 == 0 ? BagMenu.MAX_SLOTS : BagMenu.SIZE)
-                    .append(", \"items\": [], \"pickup\": \"matching\", \"recipe_item\": \"")
-                    .append(item).append("\", \"recipe_count\": ").append((i - 1) / 40 + 1).append(" }")
+                    .append(", \"items\": [], \"pickup\": \"matching\", ").append(recipe).append(" }")
                     .append(i < BagItem.COUNT ? ",\n" : "\n");
         }
         return out.append("  }\n}\n").toString();
